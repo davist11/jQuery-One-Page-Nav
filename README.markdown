@@ -1,5 +1,7 @@
 A lightweight jQuery plugin for the navigation on one-page sites. Uses the [ScrollTo Plugin](http://flesler.blogspot.com/2007/10/jqueryscrollto.html) plugin to add smooth scrolling when clicking on the navigation. Also adds a class to the correct navigation items as you are scrolling through the different sections.
 
+The plugin still works even if you add additional content to the page after the fact that changes the position of each section.
+
 ### Sample Markup:
 <pre>&lt;ul id="nav">
   &lt;li class="current">&lt;a href="#section-1">Section 1&lt;/a>&lt;/li>

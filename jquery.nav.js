@@ -1,91 +1,106 @@
+/*
+ * jQuery One Page Nav Plugin
+ * http://github.com/davist11/jQuery-One-Page-Nav
+ *
+ * Copyright (c) 2010 Trevor Davis (http://trevordavis.net)
+ * Dual licensed under the MIT and GPL licenses.
+ * Uses the same license as jQuery, see:
+ * http://jquery.org/license
+ *
+ * @version 0.2
+ *
+ * Example usage:
+ * $('#nav').onePageNav({
+ *   currentClass: 'current',
+ *   changeHash: false,
+ *   scrollSpeed: 750
+ * });
+ */
 ;(function($) {
   $.fn.onePageNav = function(options) {
-    var opts = $.extend({}, $.fn.onePageNav.defaults, options);
+    var opts = $.extend({}, $.fn.onePageNav.defaults, options),
+        onePageNav = {};
+    
+    onePageNav.sections = {};
+    
+    onePageNav.bindNav = function($this, curClass, changeHash, scrollSpeed) {
+      $this.find('a').bind('click', function(e) {
+        var $el = $(this),
+            $par = $el.parent(),
+            newLoc = $el.attr('href'),
+            $doc = $(document);
 
+        if(!$par.hasClass(curClass)) {
+          onePageNav.adjustNav($this, $par, curClass);
+          $doc.unbind('.onePageNav');
+          $.scrollTo(newLoc, scrollSpeed, {
+            onAfter: function() {
+              if(changeHash) {
+                window.location.hash = newLoc;
+              }
+              $doc.bind('scroll.onePageNav', function() {
+                onePageNav.scrollChange($this, curClass);
+              });
+            }
+          });
+        }
+
+        e.preventDefault();
+      });
+    };
+    
+    onePageNav.adjustNav = function($this, $el, curClass) {
+      $this.find('.'+curClass).removeClass(curClass);
+      $el.addClass(curClass);
+    };
+    
+    onePageNav.getPositions = function($this) {
+      $this.find('a').each(function() {
+        var linkHref = $(this).attr('href'),
+            divPos = $(linkHref).offset(),
+            topPos = divPos.top;
+        onePageNav.sections[linkHref.substr(1)] = Math.round(topPos);
+      });
+    };
+    
+    onePageNav.getSection = function(windowPos) {
+      var returnValue = '',
+          windowHeight = Math.round($(window).height() / 2);
+      
+      for(var section in onePageNav.sections) {
+        if((onePageNav.sections[section] - windowHeight) < windowPos) {
+          returnValue = section;
+        }
+      }
+      return returnValue;
+    };
+    
+    onePageNav.scrollChange = function($this, curClass) {
+      onePageNav.getPositions($this);
+      
+      var windowTop = $(window).scrollTop(),
+          position = onePageNav.getSection(windowTop);
+      
+      if(position !== '') {
+        onePageNav.adjustNav($this,$this.find('a[href=#'+position+']').parent(), curClass);
+      }
+    };
+    
+    onePageNav.init = function($this, o) {
+      onePageNav.bindNav($this, o.currentClass, o.changeHash, o.scrollSpeed);
+    
+      onePageNav.getPositions($this);
+    
+      $(document).bind('scroll.onePageNav', function() {
+        onePageNav.scrollChange($this, o.currentClass);
+      });
+    };
+    
     return this.each(function() {
       var $this = $(this),
-          o = $.meta ? $.extend({}, opts, $this.data()) : opts,
-          onePageNav = {};
-        
-      onePageNav.positions = [];
-      onePageNav.sections = [];
-        
-      onePageNav.bindNav = function() {
-        $this.find('a').bind('click', function(e) {
-          var $el = $(this),
-              $par = $el.parent(),
-              newLoc = $el.attr('href'),
-              $doc = $(document);
-
-          if(!$par.hasClass(o.currentClass)) {
-            onePageNav.adjustNav($par);
-            $doc.unbind('.onePageNav');
-            $.scrollTo(newLoc, o.scrollSpeed, {
-              onAfter: function() {
-                if(o.changeHash) {
-                  window.location.hash = newLoc;
-                }
-                $doc.bind('scroll.onePageNav', onePageNav.scrollChange);
-              }
-            });
-          }
-
-          e.preventDefault();
-        });
-      };
-    
-      onePageNav.adjustNav = function($el) {
-        $this.find('.'+o.currentClass).removeClass(o.currentClass);
-        $el.addClass(o.currentClass);
-      };
-    
-      onePageNav.buildArrays = function() {
-        $this.find('a').map(function(i) {
-          var linkHref = $(this).attr('href'),
-              divPos = $(linkHref).offset(),
-              topPos = divPos.top;
-          onePageNav.positions[i] = Math.round(topPos);
-          onePageNav.sections[i] = linkHref;
-        });
-      };
-    
-      onePageNav.getArrayPos = function(windowPos) {
-        var returnValue = -1,
-            windowHeight = Math.round($(window).height() / 2);
+          o = $.meta ? $.extend({}, opts, $this.data()) : opts;
       
-        for(var i = 0; i < onePageNav.positions.length; i++) {
-          if((onePageNav.positions[i] - windowHeight) < windowPos) {
-            returnValue = i;
-          }
-        }
-        return returnValue;
-      };
-    
-      onePageNav.scrollChange = function() {
-        var windowTop = $(window).scrollTop(),
-            arrayPos = onePageNav.getArrayPos(windowTop);
-        
-        if(arrayPos !== -1) {
-          onePageNav.adjustNav($this.find('a[href='+onePageNav.sections[arrayPos]+']').parent());
-        }
-      };
-    
-      onePageNav.initialHash = function() {
-        if(window.location.hash.length) {
-          var loc = window.location.hash;
-          onePageNav.adjustNav($this.find('a[href='+window.location.hash+']').parent());
-        }
-      };
-    
-      onePageNav.init = function() {
-        onePageNav.bindNav();
-      
-        onePageNav.buildArrays();
-      
-        $(document).bind('scroll.onePageNav', onePageNav.scrollChange);
-      };
-    
-      onePageNav.init();
+      onePageNav.init($this, o);
     
     });
   };
