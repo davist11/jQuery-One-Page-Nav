@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 0.2
+ * @version 0.3
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -23,30 +23,25 @@
     
     onePageNav.sections = {};
     
-    onePageNav.bindNav = function($this, curClass, changeHash, scrollSpeed) {
-      $this.find('a').bind('click', function(e) {
-        var $el = $(this),
-            $par = $el.parent(),
-            newLoc = $el.attr('href'),
-            $doc = $(document);
+    onePageNav.bindNav = function($el, $this, curClass, changeHash, scrollSpeed) {
+      var $par = $el.parent(),
+          newLoc = $el.attr('href'),
+          $doc = $(document);
 
-        if(!$par.hasClass(curClass)) {
-          onePageNav.adjustNav($this, $par, curClass);
-          $doc.unbind('.onePageNav');
-          $.scrollTo(newLoc, scrollSpeed, {
-            onAfter: function() {
-              if(changeHash) {
-                window.location.hash = newLoc;
-              }
-              $doc.bind('scroll.onePageNav', function() {
-                onePageNav.scrollChange($this, curClass);
-              });
+      if(!$par.hasClass(curClass)) {
+        onePageNav.adjustNav($this, $par, curClass);
+        $doc.unbind('.onePageNav');
+        $.scrollTo(newLoc, scrollSpeed, {
+          onAfter: function() {
+            if(changeHash) {
+              window.location.hash = newLoc;
             }
-          });
-        }
-
-        e.preventDefault();
-      });
+            $doc.bind('scroll.onePageNav', function() {
+              onePageNav.scrollChange($this, curClass);
+            });
+          }
+        });
+      }
     };
     
     onePageNav.adjustNav = function($this, $el, curClass) {
@@ -87,7 +82,10 @@
     };
     
     onePageNav.init = function($this, o) {
-      onePageNav.bindNav($this, o.currentClass, o.changeHash, o.scrollSpeed);
+      $this.find('a').bind('click', function(e) {
+        onePageNav.bindNav($(this), $this, o.currentClass, o.changeHash, o.scrollSpeed);
+        e.preventDefault();
+      });
     
       onePageNav.getPositions($this);
     
