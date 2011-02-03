@@ -88,10 +88,19 @@
       });
     
       onePageNav.getPositions($this);
+
+      var didScroll = false;
     
       $(document).bind('scroll.onePageNav', function() {
-        onePageNav.scrollChange($this, o.currentClass);
+        didScroll = true;
       });
+
+      setInterval(function() {
+        if(didScroll) {
+          didScroll = false;
+          onePageNav.scrollChange($this, o.currentClass);
+        }
+      }, 250);
     };
     
     return this.each(function() {
