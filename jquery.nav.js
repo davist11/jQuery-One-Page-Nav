@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 0.3
+ * @version 0.4
  *
  * Example usage:
  * $('#nav').onePageNav({
