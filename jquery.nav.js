@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 0.4
+ * @version 0.5
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -26,17 +26,17 @@
     onePageNav.bindNav = function($el, $this, curClass, changeHash, scrollSpeed) {
       var $par = $el.parent(),
           newLoc = $el.attr('href'),
-          $doc = $(document);
+          $win = $(window);
 
       if(!$par.hasClass(curClass)) {
         onePageNav.adjustNav($this, $par, curClass);
-        $doc.unbind('.onePageNav');
+        $win.unbind('.onePageNav');
         $.scrollTo(newLoc, scrollSpeed, {
           onAfter: function() {
             if(changeHash) {
               window.location.hash = newLoc;
             }
-            $doc.bind('scroll.onePageNav', function() {
+            $win.bind('scroll.onePageNav', function() {
               onePageNav.scrollChange($this, curClass);
             });
           }
@@ -91,7 +91,7 @@
 
       var didScroll = false;
     
-      $(document).bind('scroll.onePageNav', function() {
+      $(window).bind('scroll.onePageNav', function() {
         didScroll = true;
       });
 
