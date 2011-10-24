@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 0.5
+ * @version 0.6
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -23,22 +23,28 @@
     
     onePageNav.sections = {};
     
-    onePageNav.bindNav = function($el, $this, curClass, changeHash, scrollSpeed) {
+    onePageNav.bindNav = function($el, $this, o) {
       var $par = $el.parent(),
           newLoc = $el.attr('href'),
           $win = $(window);
 
-      if(!$par.hasClass(curClass)) {
-        onePageNav.adjustNav($this, $par, curClass);
+      if(!$par.hasClass(o.currentClass)) {
+        if(o.begin) {
+          o.begin();
+        }
+        onePageNav.adjustNav($this, $par, o.currentClass);
         $win.unbind('.onePageNav');
-        $.scrollTo(newLoc, scrollSpeed, {
+        $.scrollTo(newLoc, o.scrollSpeed, {
           onAfter: function() {
-            if(changeHash) {
+            if(o.changeHash) {
               window.location.hash = newLoc;
             }
             $win.bind('scroll.onePageNav', function() {
-              onePageNav.scrollChange($this, curClass);
+              onePageNav.scrollChange($this, o.currentClass);
             });
+            if(o.end) {
+              o.end();
+            }
           }
         });
       }
@@ -83,7 +89,7 @@
     
     onePageNav.init = function($this, o) {
       $this.find('a').bind('click', function(e) {
-        onePageNav.bindNav($(this), $this, o.currentClass, o.changeHash, o.scrollSpeed);
+        onePageNav.bindNav($(this), $this, o);
         e.preventDefault();
       });
     
@@ -116,7 +122,9 @@
   $.fn.onePageNav.defaults = {
     currentClass: 'current',
     changeHash: false,
-    scrollSpeed: 750
+    scrollSpeed: 750,
+    begin: false,
+    end: false
   };
 
 })(jQuery);

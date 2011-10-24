@@ -26,7 +26,13 @@ The plugin still works even if you add additional content to the page after the 
 <pre>$('#nav').onePageNav({
   currentClass: 'current',
   changeHash: false,
-  scrollSpeed: 750
+  scrollSpeed: 750,
+  begin: function() {
+    console.log('I get fired when the animation is starting');
+  },
+  end: function() {
+	console.log('I get fired when the animation is ending');
+  }
 });</pre>
 
 If you want the hash to change when a user clicks on the navigation, then change the **changeHash** options to **true**.
