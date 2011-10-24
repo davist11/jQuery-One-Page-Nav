@@ -22,7 +22,7 @@ The plugin still works even if you add additional content to the page after the 
   &lt;p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&lt;/p>
 &lt;/div></pre>
 
-### Example Usage with Defaults:
+### Example Usage:
 <pre>$('#nav').onePageNav({
   currentClass: 'current',
   changeHash: false,
