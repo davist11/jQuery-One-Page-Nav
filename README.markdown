@@ -27,6 +27,7 @@ The plugin still works even if you add additional content to the page after the 
   currentClass: 'current',
   changeHash: false,
   scrollSpeed: 750,
+  scrollOffset: 30
   begin: function() {
     console.log('I get fired when the animation is starting');
   },

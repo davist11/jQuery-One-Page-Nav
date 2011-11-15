@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 0.6
+ * @version 0.7
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -35,12 +35,15 @@
         onePageNav.adjustNav($this, $par, o.currentClass);
         $win.unbind('.onePageNav');
         $.scrollTo(newLoc, o.scrollSpeed, {
+          offset: {
+            top: -o.scrollOffset
+          },
           onAfter: function() {
             if(o.changeHash) {
               window.location.hash = newLoc;
             }
             $win.bind('scroll.onePageNav', function() {
-              onePageNav.scrollChange($this, o.currentClass);
+              onePageNav.scrollChange($this, o);
             });
             if(o.end) {
               o.end();
@@ -55,12 +58,13 @@
       $el.addClass(curClass);
     };
     
-    onePageNav.getPositions = function($this) {
+    onePageNav.getPositions = function($this, o) {
       $this.find('a').each(function() {
         var linkHref = $(this).attr('href'),
             divPos = $(linkHref).offset(),
             topPos = divPos.top;
-        onePageNav.sections[linkHref.substr(1)] = Math.round(topPos);
+            
+        onePageNav.sections[linkHref.substr(1)] = Math.round(topPos) - o.scrollOffset;
       });
     };
     
@@ -76,26 +80,26 @@
       return returnValue;
     };
     
-    onePageNav.scrollChange = function($this, curClass) {
-      onePageNav.getPositions($this);
+    onePageNav.scrollChange = function($this, o) {
+      onePageNav.getPositions($this, o);
       
       var windowTop = $(window).scrollTop(),
           position = onePageNav.getSection(windowTop);
-      
+          
       if(position !== '') {
-        onePageNav.adjustNav($this,$this.find('a[href=#'+position+']').parent(), curClass);
+        onePageNav.adjustNav($this,$this.find('a[href=#'+position+']').parent(), o.currentClass);
       }
     };
     
     onePageNav.init = function($this, o) {
+      var didScroll = false;
+      
       $this.find('a').bind('click', function(e) {
         onePageNav.bindNav($(this), $this, o);
         e.preventDefault();
       });
     
-      onePageNav.getPositions($this);
-
-      var didScroll = false;
+      onePageNav.getPositions($this, o);
     
       $(window).bind('scroll.onePageNav', function() {
         didScroll = true;
@@ -104,7 +108,7 @@
       setInterval(function() {
         if(didScroll) {
           didScroll = false;
-          onePageNav.scrollChange($this, o.currentClass);
+          onePageNav.scrollChange($this, o);
         }
       }, 250);
     };
@@ -123,6 +127,7 @@
     currentClass: 'current',
     changeHash: false,
     scrollSpeed: 750,
+    scrollOffset: 0,
     begin: false,
     end: false
   };
