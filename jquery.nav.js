@@ -34,14 +34,15 @@
         }
         onePageNav.adjustNav($this, $par, o.currentClass);
         $win.unbind('.onePageNav');
-        $.scrollTo(newLoc, o.scrollSpeed, {
+        $.scrollTo(newLoc, o.scrollSpeed, {easing : o.easing}, {
           offset: {
             top: -o.scrollOffset
           },
           onAfter: function() {
-            if(o.changeHash) {
-              window.location.hash = newLoc;
-            }
+  		if (o.changeHash) {
+			window.location.hash = newLoc;
+			};
+
             $win.bind('scroll.onePageNav', function() {
               onePageNav.scrollChange($this, o);
             });
@@ -89,6 +90,10 @@
       if(position !== '') {
         onePageNav.adjustNav($this,$this.find('a[href=#'+position+']').parent(), o.currentClass);
       }
+		if (o.changeHash) {
+		  window.location.hash = position;
+		};
+
     };
     
     onePageNav.init = function($this, o) {
@@ -128,6 +133,7 @@
     changeHash: false,
     scrollSpeed: 750,
     scrollOffset: 0,
+	  easing: 'easeInOutCirc',
     begin: false,
     end: false
   };
