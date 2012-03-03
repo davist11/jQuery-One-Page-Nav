@@ -28,6 +28,7 @@ The plugin still works even if you add additional content to the page after the 
   changeHash: false,
   scrollSpeed: 750,
   scrollOffset: 30,
+  easing: 'swing',
   begin: function() {
     console.log('I get fired when the animation is starting');
   },
