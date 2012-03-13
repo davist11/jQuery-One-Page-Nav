@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 0.8
+ * @version 0.9
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -60,7 +60,13 @@
     };
     
     onePageNav.getPositions = function($this, o) {
-      $this.find('a').each(function() {
+      var $nav = $this.find('a');
+      
+      if(o.filter !== '') {
+        $nav = $nav.filter(o.filter);
+      }
+      
+      $nav.each(function() {
         var linkHref = $(this).attr('href'),
             divPos = $(linkHref).offset(),
             topPos = divPos.top;
@@ -69,9 +75,9 @@
       });
     };
     
-    onePageNav.getSection = function(windowPos) {
+    onePageNav.getSection = function(windowPos, o) {
       var returnValue = '',
-          windowHeight = Math.round($(window).height() / 2);
+          windowHeight = Math.round($(window).height() * o.scrollThreshold);
       
       for(var section in onePageNav.sections) {
         if((onePageNav.sections[section] - windowHeight) < windowPos) {
@@ -85,7 +91,7 @@
       onePageNav.getPositions($this, o);
       
       var windowTop = $(window).scrollTop(),
-          position = onePageNav.getSection(windowTop);
+          position = onePageNav.getSection(windowTop, o);
           
       if(position !== '') {
         onePageNav.adjustNav($this,$this.find('a[href=#'+position+']').parent(), o.currentClass);
@@ -93,9 +99,14 @@
     };
     
     onePageNav.init = function($this, o) {
-      var didScroll = false;
+      var didScroll = false,
+          $nav = $this.find('a');
       
-      $this.find('a').bind('click', function(e) {
+      if(o.filter !== '') {
+        $nav = $nav.filter(o.filter);
+      }
+
+      $nav.bind('click', function(e) {
         onePageNav.bindNav($(this), $this, o);
         e.preventDefault();
       });
@@ -128,8 +139,10 @@
     currentClass: 'current',
     changeHash: false,
     easing: 'swing',
+    filter: '',
     scrollSpeed: 750,
     scrollOffset: 0,
+    scrollThreshold: 0.5,
     begin: false,
     end: false
   };
