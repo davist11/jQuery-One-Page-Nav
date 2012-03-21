@@ -56,3 +56,19 @@ If you want to filter items out of your navigation then pass in a selector to th
 $('#nav').onePageNav({
 	filter: ':not(.external)'
 });</pre>
+
+<hr />
+
+### Javascript compression
+
+http://closure-compiler.appspot.com/home
+
+### Semantic Versioning
+
+http://semver.org/
+
+### Documentation
+
+http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+http://code.google.com/p/jsdoc-toolkit/
+
