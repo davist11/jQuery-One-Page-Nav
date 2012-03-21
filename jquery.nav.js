@@ -1,4 +1,4 @@
-/*
+/**
  * jQuery One Page Nav Plugin
  * http://github.com/davist11/jQuery-One-Page-Nav
  *
@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 0.9
+ * @version 0.9.1
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -59,6 +59,28 @@
       $el.addClass(curClass);
     };
     
+    /**
+     * @return {string} The ID of the last section (positionally) on the page.
+     */
+    onePageNav.getLastSection = function($this, o) {
+      var max = 0;
+      var returnValue;
+
+      var $nav = $this.find('a');
+      if(o.filter !== '') {
+        $nav = $nav.filter(o.filter);
+      }
+
+      $nav.each(function() {
+        var section = $(this).attr('href');
+        var current_max = Math.max( max, $(section).offset().top );
+        if (current_max >= max) {
+          returnValue = section.substr(1);
+        }
+      });
+      return returnValue;
+    };
+
     onePageNav.getPositions = function($this, o) {
       var $nav = $this.find('a');
       
@@ -75,13 +97,20 @@
       });
     };
     
-    onePageNav.getSection = function(windowPos, o) {
+    onePageNav.getSection = function($this, windowPos, o) {
       var returnValue = '',
           windowHeight = Math.round($(window).height() * o.scrollThreshold);
-      
-      for(var section in onePageNav.sections) {
-        if((onePageNav.sections[section] - windowHeight) < windowPos) {
-          returnValue = section;
+
+      lastSection = onePageNav.getLastSection($this, o);
+      if($(window).scrollTop() + $(window).height() >=
+            $(document).height() - $(lastSection).height() - 5) {
+        // last section when we hit the bottom of the document
+        returnValue = lastSection;
+      } else {
+        for(var section in onePageNav.sections) {
+          if((onePageNav.sections[section] - windowHeight) < windowPos) {
+            returnValue = section;
+          }
         }
       }
       return returnValue;
@@ -91,7 +120,7 @@
       onePageNav.getPositions($this, o);
       
       var windowTop = $(window).scrollTop(),
-          position = onePageNav.getSection(windowTop, o);
+          position = onePageNav.getSection($this, windowTop, o);
           
       if(position !== '') {
         onePageNav.adjustNav($this,$this.find('a[href=#'+position+']').parent(), o.currentClass);
@@ -148,3 +177,4 @@
   };
 
 })(jQuery);
+
