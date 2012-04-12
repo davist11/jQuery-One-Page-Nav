@@ -63,7 +63,7 @@ If clicking a link in the nav makes the rest of the links unclickable until you 
 <pre>$('#nav').onePageNav({
   begin: function() {
     //Hack so you can click other menu items after the initial click
-    $('body').append('<div id="device-dummy" style="height: 1px;"></div>');
+    $('body').append('&lt;div id="device-dummy" style="height: 1px;"></div>');
   },
   end: function() {
     $('#device-dummy').remove();
