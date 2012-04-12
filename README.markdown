@@ -56,3 +56,18 @@ If you want to filter items out of your navigation then pass in a selector to th
 $('#nav').onePageNav({
 	filter: ':not(.external)'
 });</pre>
+
+### If you are having issues with iOS devices
+If clicking a link in the nav makes the rest of the links unclickable until you scroll, you can solve it in this hacky way:
+
+<pre>$('#nav').onePageNav({
+  begin: function() {
+    //Hack so you can click other menu items after the initial click
+    $('body').append('<div id="device-dummy" style="height: 1px;"></div>');
+  },
+  end: function() {
+    $('#device-dummy').remove();
+  }
+});</pre>
+
+Found the solution [here](http://stackoverflow.com/a/10030251)
