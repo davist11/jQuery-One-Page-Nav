@@ -32,10 +32,10 @@ The plugin still works even if you add additional content to the page after the 
   filter: '',
   easing: 'swing',
   begin: function() {
-    console.log('I get fired when the animation is starting');
+    //I get fired when the animation is starting
   },
   end: function() {
-	console.log('I get fired when the animation is ending');
+    //I get fired when the animation is ending
   }
 });</pre>
 
