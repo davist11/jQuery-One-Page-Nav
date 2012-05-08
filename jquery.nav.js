@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 0.9
+ * @version 1.0
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -25,7 +25,7 @@
     
 		onePageNav.bindNav = function($el, $this, o) {
 			var $par = $el.parent(),
-				newLoc = $el.attr('href'),
+				newLoc = '#' + $el.attr('href').split('#')[1],
 				$win = $(window);
 
 			if(!$par.hasClass(o.currentClass)) {
@@ -67,11 +67,10 @@
 			}
 
 			$nav.each(function() {
-				var linkHref = $(this).attr('href'),
-				divPos = $(linkHref).offset(),
-				topPos = divPos.top;
+				var linkHref = $(this).attr('href').split('#')[1],
+					topPos = $('#' + linkHref).offset().top;
 
-				onePageNav.sections[linkHref.substr(1)] = Math.round(topPos) - o.scrollOffset;
+				onePageNav.sections[linkHref] = Math.round(topPos) - o.scrollOffset;
 			});
 		};
     
@@ -94,7 +93,7 @@
 				position = onePageNav.getSection(windowTop, o);
 
 			if(position !== '') {
-				onePageNav.adjustNav($this,$this.find('a[href=#'+position+']').parent(), o.currentClass);
+				onePageNav.adjustNav($this, $this.find('a[href$="#' + position + '"]').parent(), o.currentClass);
 			}
 		};
     
