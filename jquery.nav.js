@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 1.0
+ * @version 1.0.1
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -75,8 +75,13 @@
 		};
     
 		onePageNav.getSection = function(windowPos, o) {
-			var returnValue = '',
+			var returnValue, windowHeight;
+			
+			if(o.scrollThreshold > 1){
+				windowHeight = o.scrollThreshold;
+			} else {
 				windowHeight = Math.round($(window).height() * o.scrollThreshold);
+			}
 
 			for(var section in onePageNav.sections) {
 				if((onePageNav.sections[section] - windowHeight) < windowPos) {
@@ -94,7 +99,11 @@
 
 			if(position !== '') {
 				onePageNav.adjustNav($this, $this.find('a[href$="#' + position + '"]').parent(), o.currentClass);
+				if(o.change) {
+					o.change(position);
+				}
 			}
+			
 		};
     
 		onePageNav.init = function($this, o) {
@@ -142,7 +151,8 @@
 		scrollOffset: 0,
 		scrollThreshold: 0.5,
 		begin: false,
-		end: false
+		end: false,
+		change: false
 	};
 
 })(jQuery);

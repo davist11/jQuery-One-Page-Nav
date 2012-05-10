@@ -127,7 +127,7 @@ p {
 
 <script src="jquery.js"></script>
 <script src="jquery.scrollTo.js"></script>
-<script src="jquery.nav.js"></script>
+<script src="jquery.nav.min.js"></script>
 <script>
 $(document).ready(function() {
   $('#nav').onePageNav({
@@ -137,7 +137,8 @@ $(document).ready(function() {
     end: function() {
 	  console.log('stop');
     },
-	scrollOffset: 30
+	scrollOffset: 30,
+	scrollThreshold: 40
   });
   
   $('.do').click(function(e) {

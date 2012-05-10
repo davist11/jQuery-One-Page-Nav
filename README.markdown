@@ -36,6 +36,10 @@ The plugin still works even if you add additional content to the page after the 
   },
   end: function() {
     //I get fired when the animation is ending
+  },
+  change: function(position) {
+    //I get fired on scroll
+    console.log(position)
   }
 });</pre>
 
@@ -55,6 +59,15 @@ If you want to filter items out of your navigation then pass in a selector to th
   
 $('#nav').onePageNav({
 	filter: ':not(.external)'
+});</pre>
+
+If your sections are small in height you might want to set the threshold point as an exact amount rather than as a fraction of the window height.
+
+### Exact Threshold Point Example:
+<pre>
+$('#nav').onePageNav({
+	scrollOffset: 300,
+	scrollThreshold: 310,
 });</pre>
 
 ### If you are having issues with iOS devices
