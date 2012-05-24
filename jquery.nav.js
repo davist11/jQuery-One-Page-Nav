@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 1.0
+ * @version 1.1
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -35,6 +35,7 @@
 				onePageNav.adjustNav($this, $par, o.currentClass);
 				$win.unbind('.onePageNav');
 				$.scrollTo(newLoc, o.scrollSpeed, {
+					axis: 'y',
 					easing: o.easing,
 					offset: {
 						top: -o.scrollOffset
