@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 1.2
+ * @version 2.0
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -29,6 +29,8 @@
 		this.$win = $(window);
 		this.sections = {};
 		this.didScroll = false;
+		this.$doc = $(document);
+		this.docHeight = this.$doc.height();
 	};
 
 	// the plugin prototype
@@ -64,7 +66,7 @@
 			self.getPositions();
 			
 			//Handle scroll changes
-			self.bindScroll();
+			self.bindInterval();
 			
 			//Update the positions on resize too
 			self.$win.on('resize.onePageNav', $.proxy(self.getPositions, self));
@@ -77,17 +79,27 @@
 			$parent.addClass(self.config.currentClass);
 		},
 		
-		bindScroll: function() {
+		bindInterval: function() {
 			var self = this;
+			var docHeight;
 			
 			self.$win.on('scroll.onePageNav', function() {
 				self.didScroll = true;
 			});
 			
 			self.t = setInterval(function() {
+				docHeight = self.$doc.height();
+				
+				//If it was scrolled
 				if(self.didScroll) {
 					self.didScroll = false;
 					self.scrollChange();
+				}
+				
+				//If the document height changes
+				if(docHeight !== self.docHeight) {
+					self.docHeight = docHeight;
+					self.getPositions();
 				}
 			}, 250);
 		},
@@ -138,7 +150,7 @@
 				self.adjustNav(self, $parent);
 				
 				//Removing the auto-adjust on scroll
-				self.unbindScroll();
+				self.unbindInterval();
 				
 				//Scroll to the correct position
 				$.scrollTo(newLoc, self.config.scrollSpeed, {
@@ -154,7 +166,7 @@
 						}
 						
 						//Add the auto-adjust on scroll back in
-						self.bindScroll();
+						self.bindInterval();
 						
 						//End callback
 						if(self.config.end) {
@@ -168,9 +180,6 @@
 		},
 		
 		scrollChange: function() {
-			//Update the positions
-			this.getPositions();
-			
 			var windowTop = this.$win.scrollTop();
 			var position = this.getSection(windowTop);
 			var $parent;
@@ -184,9 +193,9 @@
 			}
 		},
 		
-		unbindScroll: function() {
+		unbindInterval: function() {
 			clearInterval(this.t);
-			this.$win.unbind('.onePageNav');
+			this.$win.unbind('scroll.onePageNav');
 		}
 	};
 
