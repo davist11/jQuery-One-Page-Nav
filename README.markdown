@@ -38,6 +38,9 @@ The plugin still works even if you add additional content to the page after the 
 	},
 	end: function() {
 		//I get fired when the animation is ending
+	},
+	scrollChange: function($currentListItem) {
+		//I get fired when you enter a section and I pass the list item of the section
 	}
 });</pre>
 

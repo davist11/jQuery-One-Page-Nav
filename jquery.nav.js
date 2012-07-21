@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 2.0
+ * @version 2.1
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -44,7 +44,8 @@
 			scrollOffset: 0,
 			scrollThreshold: 0.5,
 			begin: false,
-			end: false
+			end: false,
+			scrollChange: false
 		},
 
 		init: function() {
@@ -188,8 +189,16 @@
 			if(position !== null) {
 				$parent = this.$elem.find('a[href$="#' + position + '"]').parent();
 				
-				//Change the highlighted nav item
-				this.adjustNav(this, $parent);
+				//If it's not already the current section
+				if(!$parent.hasClass(this.config.currentClass)) {
+					//Change the highlighted nav item
+					this.adjustNav(this, $parent);
+					
+					//If there is a scrollChange callback
+					if(this.config.scrollChange) {
+						this.config.scrollChange($parent);
+					}
+				}
 			}
 		},
 		
