@@ -194,6 +194,12 @@
 					//Change the highlighted nav item
 					this.adjustNav(this, $parent);
 					
+					//Do we need to change the hash?
+					if (this.config.changeHash) {
+						var newLoc = '#' + this.getHash($parent.find('a'));
+						window.location.hash = newLoc;
+					}
+					
 					//If there is a scrollChange callback
 					if(this.config.scrollChange) {
 						this.config.scrollChange($parent);
