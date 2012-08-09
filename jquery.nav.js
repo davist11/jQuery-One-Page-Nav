@@ -78,6 +78,12 @@
 		adjustNav: function(self, $parent) {
 			self.$elem.find('.' + self.config.currentClass).removeClass(self.config.currentClass);
 			$parent.addClass(self.config.currentClass);
+			
+ 			//Do we need to change the hash?
+			if (self.config.changeHash) {
+				var newLoc = '#' + self.getHash($parent.find('a'));
+				window.location.hash = newLoc;
+			}
 		},
 		
 		bindInterval: function() {
@@ -147,7 +153,7 @@
 					self.config.begin();
 				}
 				
-				//Change the highlighted nav item
+				//Change the highlighted nav item and the hash
 				self.adjustNav(self, $parent);
 				
 				//Removing the auto-adjust on scroll
@@ -191,13 +197,8 @@
 				
 				//If it's not already the current section
 				if(!$parent.hasClass(this.config.currentClass)) {
-					//Change the highlighted nav item
+					//Change the highlighted nav item and the hash
 					this.adjustNav(this, $parent);
-					
-					//If there is a scrollChange callback
-					if(this.config.scrollChange) {
-						this.config.scrollChange($parent);
-					}
 				}
 			}
 		},
