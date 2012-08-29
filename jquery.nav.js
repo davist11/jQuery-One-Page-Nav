@@ -149,6 +149,9 @@
 				
 				//Change the highlighted nav item
 				self.adjustNav(self, $parent);
+
+				//Un-highlight the previous section
+				self.highlightSection(self);
 				
 				//Removing the auto-adjust on scroll
 				self.unbindInterval();
@@ -171,7 +174,10 @@
 						
 						//End callback
 						if(self.config.end) {
-							self.config.end();
+							self.config.end($(newLoc));
+
+							//Highlight the new section
+							self.highlightSection(self, $(newLoc));
 						}
 					}
 				});
@@ -179,11 +185,20 @@
 
 			e.preventDefault();
 		},
-		
+
+		highlightSection: function(self, $section) {
+			$.each(self.sections, function(key) {
+				$('#' + key).removeClass(self.config.currentClass);
+			});
+			console.log($section);
+			$section ? $section.addClass(self.config.currentClass) : null;
+		},
+
 		scrollChange: function() {
 			var windowTop = this.$win.scrollTop();
 			var position = this.getSection(windowTop);
 			var $parent;
+			var $section = $('#' + position);
 			
 			//If the position is set
 			if(position !== null) {
@@ -193,7 +208,10 @@
 				if(!$parent.hasClass(this.config.currentClass)) {
 					//Change the highlighted nav item
 					this.adjustNav(this, $parent);
-					
+
+					//Highlight the current section
+					this.highlightSection(this, $section);
+
 					//If there is a scrollChange callback
 					if(this.config.scrollChange) {
 						this.config.scrollChange($parent);
