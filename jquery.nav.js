@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 2.1
+ * @version 2.2
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -113,12 +113,16 @@
 			var self = this;
 			var linkHref;
 			var topPos;
+			var $target;
 			
 			self.$nav.each(function() {
 				linkHref = self.getHash($(this));
-				topPos = $('#' + linkHref).offset().top;
-			
-				self.sections[linkHref] = Math.round(topPos) - self.config.scrollOffset;
+				$target = $('#' + linkHref);
+
+				if($target.length) {
+					topPos = $target.offset().top;
+					self.sections[linkHref] = Math.round(topPos) - self.config.scrollOffset;
+				}
 			});
 		},
 		
