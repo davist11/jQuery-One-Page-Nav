@@ -45,7 +45,8 @@
 			scrollThreshold: 0.5,
 			begin: false,
 			end: false,
-			scrollChange: false
+			scrollChange: false,
+			changeClassBefore: true
 		},
 
 		init: function() {
@@ -151,8 +152,10 @@
 					self.config.begin();
 				}
 				
-				//Change the highlighted nav item
-				self.adjustNav(self, $parent);
+				if(self.config.changeClassBefore) {
+					//Change the highlighted nav item
+					self.adjustNav(self, $parent);
+				}
 				
 				//Removing the auto-adjust on scroll
 				self.unbindInterval();
@@ -168,6 +171,11 @@
 						//Do we need to change the hash?
 						if(self.config.changeHash) {
 							window.location.hash = newLoc;
+						}
+
+						if(!self.config.changeClassBefore) {
+							//Change the highlighted nav item
+							self.adjustNav(self, $parent);
 						}
 						
 						//Add the auto-adjust on scroll back in
