@@ -6,7 +6,7 @@ The plugin still works even if you add additional content to the page after the 
 <pre>&lt;ul id="nav">
 	&lt;li class="current">&lt;a href="#section-1">Section 1&lt;/a>&lt;/li>
 	&lt;li>&lt;a href="#section-2">Section 2&lt;/a>&lt;/li>
-	&lt;li">&lt;a href="#section-3">Section 3&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="#section-3">Section 3&lt;/a>&lt;/li>
 &lt;/ul>
 
 &lt;div id="section-1">
