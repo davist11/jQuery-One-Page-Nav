@@ -131,11 +131,17 @@
 			var windowHeight = Math.round(this.$win.height() * this.config.scrollThreshold);
 
 			for(var section in this.sections) {
-				if((this.sections[section] - windowHeight) < windowPos) {
+
+				var element = $('#' + section);
+				var range = {
+					from: this.sections[section],
+					to: this.sections[section] + element.height() + this.config.scrollOffset
+				};
+
+				if(windowPos >= range.from && windowPos <= range.to) {
 					returnValue = section;
 				}
 			}
-			
 			return returnValue;
 		},
 		
