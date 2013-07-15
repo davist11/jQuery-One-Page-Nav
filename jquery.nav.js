@@ -127,16 +127,22 @@
 		},
 		
 		getSection: function(windowPos) {
-			var returnValue = null;
+			var currentSection = null;
+			var lastSection = null;
 			var windowHeight = Math.round(this.$win.height() * this.config.scrollThreshold);
+			var atTheBottom = windowPos >= this.docHeight - this.$win.height();
+			var currentPosition = windowPos + windowHeight;
 
 			for(var section in this.sections) {
-				if((this.sections[section] - windowHeight) < windowPos) {
-					returnValue = section;
+				if(this.sections[section] >= this.sections[lastSection || section]) {
+					lastSection = section;
+				}
+				if(this.sections[section] < currentPosition && this.sections[section] >= this.sections[currentSection || section]) {
+					currentSection = section;
 				}
 			}
 			
-			return returnValue;
+			return atTheBottom ? lastSection : currentSection;
 		},
 		
 		handleClick: function(e) {
