@@ -131,7 +131,7 @@
 			var windowHeight = Math.round(this.$win.height() * this.config.scrollThreshold);
 
 			for(var section in this.sections) {
-				if((this.sections[section] - windowHeight) < windowPos) {
+				if((this.sections[section] - windowHeight) < windowPos && (returnValue == null || this.sections[section] > this.sections[returnValue])) {
 					returnValue = section;
 				}
 			}
