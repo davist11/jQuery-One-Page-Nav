@@ -71,6 +71,7 @@
 			
 			//Update the positions on resize too
 			self.$win.on('resize.onePageNav', $.proxy(self.getPositions, self));
+			self.$doc.on('resize.onePageNav', $.proxy(self.getPositions, self));
 
 			return this;
 		},
