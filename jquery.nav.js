@@ -113,16 +113,16 @@
 			var self = this;
 			var linkHref;
 			var topPos;
-			var $target;
-			
+			var targets = [];
+
 			self.$nav.each(function() {
 				linkHref = self.getHash($(this));
-				$target = $('#' + linkHref);
-
-				if($target.length) {
-					topPos = $target.offset().top;
-					self.sections[linkHref] = Math.round(topPos) - self.config.scrollOffset;
-				}
+				targets.push('#' + linkHref);
+			});
+			$(targets.join(',')).each(function(){
+				var $target = $(this);
+				topPos = $target.offset().top;
+				self.sections[$target.attr('id')] = Math.round(topPos) - self.config.scrollOffset;
 			});
 		},
 		
