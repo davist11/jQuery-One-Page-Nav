@@ -62,6 +62,22 @@ $('#nav').onePageNav({
 	filter: ':not(.external)'
 });</pre>
 
+### topOffset Example:
+
+In an effort to bring back support for the now-deprecated scrollOffset, you may now
+use the `topOffset` option in conjunction with a header. See `top-offset.html` and 
+`top-offset-bg-color.htm` for examples.
+<pre>$('#nav').onePageNav({
+	topOffset: {
+		selectionSelector: '.section',
+		value: 30 //typically the height of your header
+	}
+}</pre>
+
+A couple of known limitations:
+1. Sections may have a top/bottom border, OR a unique background (different bg than the container/sibling sections) but not both.
+2. For sections with unique backgrounds, you must add padding by using a wrapper element, see `top-offset-bg-color.htm`
+
 ### If you are having issues with iOS devices
 If clicking a link in the nav makes the rest of the links unclickable until you scroll, you can solve it in this hacky way:
 

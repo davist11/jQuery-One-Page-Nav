@@ -231,7 +231,6 @@
 
 			// set the offset of each section 
 			$(this.config.topOffset.sectionSelector).each($.proxy(function(idx, item){
-				console.log(this.config.topOffset.value + parseInt($(item).css('padding')))
 				$(item).css({
 					'padding-top': this.config.topOffset.value + parseInt($(item).css('padding')),
 					'margin-top': -this.config.topOffset.value,
