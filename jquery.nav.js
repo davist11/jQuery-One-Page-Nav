@@ -45,7 +45,8 @@
 			scrollThreshold: 0.5,
 			begin: false,
 			end: false,
-			scrollChange: false
+			scrollChange: false,
+			topOffset: false
 		},
 
 		init: function() {
@@ -68,6 +69,9 @@
 			
 			//Handle scroll changes
 			self.bindInterval();
+
+			//Init topOffset
+			self.initTopOffset();
 			
 			//Update the positions on resize too
 			self.$win.on('resize.onePageNav', $.proxy(self.getPositions, self));
@@ -209,6 +213,30 @@
 		unbindInterval: function() {
 			clearInterval(this.t);
 			this.$win.unbind('scroll.onePageNav');
+		},
+
+		initTopOffset: function(){
+			/* 
+			** 2 known limitations:
+			**
+			** 1) Sections may have a top/bottom border, OR a unique background (different bg than the 
+			** container/sibling sections) but not both.
+			**
+			** 2) For sections with unique backgrounds, you must add padding by using a
+			** wrapper element, see top-offset-bg-color.htm
+			*/
+
+			// return if no (valid) topOffset
+			if (typeof this.config.topOffset !== 'object') return;
+
+			// set the offset of each section 
+			$(this.config.topOffset.sectionSelector).each($.proxy(function(idx, item){
+				$(item).css({
+					'padding-top': this.config.topOffset.value + parseInt($(item).css('padding')),
+					'margin-top': -this.config.topOffset.value,
+					'background-clip': 'content-box'
+				})
+			}, this));
 		}
 	};
 
