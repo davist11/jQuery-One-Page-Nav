@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 2.2.0
+ * @version 3.0.0
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -25,7 +25,6 @@
 		this.$elem = $(elem);
 		this.options = options;
 		this.metadata = this.$elem.data('plugin-options');
-		this.$nav = this.$elem.find('a');
 		this.$win = $(window);
 		this.sections = {};
 		this.didScroll = false;
@@ -36,6 +35,7 @@
 	// the plugin prototype
 	OnePageNav.prototype = {
 		defaults: {
+			navItems: 'a',
 			currentClass: 'current',
 			changeHash: false,
 			easing: 'swing',
@@ -51,6 +51,8 @@
 			// Introduce defaults that can be extended either
 			// globally or using an object literal.
 			this.config = $.extend({}, this.defaults, this.options, this.metadata);
+
+			this.$nav = this.$elem.find(this.config.navItems);
 
 			//Filter any links out of the nav
 			if(this.config.filter !== '') {
@@ -156,7 +158,6 @@
 
 				//Scroll to the correct position
 				self.scrollTo(newLoc, function() {
-					console.log('called back')
 					//Do we need to change the hash?
 					if(self.config.changeHash) {
 						window.location.hash = newLoc;
@@ -199,7 +200,6 @@
 
 		scrollTo: function(target, callback) {
 			var offset = $(target).offset().top;
-			//TODO: deal with horizontal scrolling too
 
 			$('html, body').animate({
 				scrollTop: offset

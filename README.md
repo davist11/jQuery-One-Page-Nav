@@ -1,4 +1,4 @@
-A lightweight jQuery plugin for the navigation on one-page sites. Uses the [ScrollTo Plugin](http://flesler.blogspot.com/2007/10/jqueryscrollto.html) plugin to add smooth scrolling when clicking on the navigation. Also adds a class to the correct navigation items as you are scrolling through the different sections.
+A lightweight jQuery plugin for the navigation on one-page sites. Adds smooth scrolling when clicking on the navigation and automatically selects the correct navigation items as you are scrolling through the different sections.
 
 The plugin still works even if you add additional content to the page after the fact that changes the position of each section.
 
@@ -29,7 +29,6 @@ The plugin still works even if you add additional content to the page after the 
 	currentClass: 'current',
 	changeHash: false,
 	scrollSpeed: 750,
-	scrollOffset: 30,
 	scrollThreshold: 0.5,
 	filter: '',
 	easing: 'swing',
@@ -57,7 +56,7 @@ If you want to filter items out of your navigation then pass in a selector to th
 	&lt;li>&lt;a href="#section-5">Section 5&lt;/a>&lt;/li>
 	&lt;li>&lt;a href="http://google.com" class="external">Some other link&lt;/a>&lt;/li>
 &lt;/ul>
-  
+
 $('#nav').onePageNav({
 	filter: ':not(.external)'
 });</pre>

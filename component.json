@@ -1,13 +1,13 @@
 {
   "name": "jQuery-One-Page-Nav",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "main": [
-    "jquery.scrollTo.js",
     "jquery.nav.js"
   ],
   "ignore": [
-    "README.markdown",
-    "*.htm"
+    "README.md",
+    "*.html",
+    "*.css"
   ],
   "dependencies": {
     "jquery": "~1.8.0"
