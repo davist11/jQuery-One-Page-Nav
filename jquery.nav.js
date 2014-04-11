@@ -120,7 +120,7 @@
 				$target = $('#' + linkHref);
 
 				if($target.length) {
-					topPos = $target.offset().top;
+					topPos = $target.offset().top + self.config.scrollOffset;
 					self.sections[linkHref] = Math.round(topPos);
 				}
 			});
