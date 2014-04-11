@@ -40,6 +40,7 @@
 			changeHash: false,
 			easing: 'swing',
 			filter: '',
+			scrollOffset: 0,
 			scrollSpeed: 750,
 			scrollThreshold: 0.5,
 			begin: false,
@@ -199,7 +200,7 @@
 		},
 
 		scrollTo: function(target, callback) {
-			var offset = $(target).offset().top;
+			var offset = $(target).offset().top + this.config.scrollOffset;
 
 			$('html, body').animate({
 				scrollTop: offset
