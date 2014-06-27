@@ -44,7 +44,8 @@
 			scrollThreshold: 0.5,
 			begin: false,
 			end: false,
-			scrollChange: false
+			scrollChange: false,
+			topOffset: 0
 		},
 
 		init: function() {
@@ -202,7 +203,7 @@
 			var offset = $(target).offset().top;
 
 			$('html, body').animate({
-				scrollTop: offset
+				scrollTop: offset - this.config.topOffset
 			}, this.config.scrollSpeed, this.config.easing, callback);
 		},
 
