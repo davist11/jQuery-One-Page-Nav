@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://jquery.org/license
  *
- * @version 3.0.0
+ * @version 3.0.1
  *
  * Example usage:
  * $('#nav').onePageNav({
@@ -44,7 +44,8 @@
 			scrollThreshold: 0.5,
 			begin: false,
 			end: false,
-			scrollChange: false
+			scrollChange: false,
+			scrollOffset : 0
 		},
 
 		init: function() {
@@ -199,7 +200,7 @@
 		},
 
 		scrollTo: function(target, callback) {
-			var offset = $(target).offset().top;
+			var offset = $(target).offset().top - this.config.scrollOffset;
 
 			$('html, body').animate({
 				scrollTop: offset
