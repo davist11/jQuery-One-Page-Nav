@@ -61,6 +61,32 @@ $('#nav').onePageNav({
 	filter: ':not(.external)'
 });</pre>
 
+### Slim Example:
+As soon as the navigation leaves the top of the window the navigation begins to shrink. All you have to do is to specify witch element should be shrinked and witch target values are desired. For the attributes you can use the jquery attribute names
+<pre>
+&lt;style>
+	#nav li {
+		margin: 20px 10px 20px 0px;
+	}
+&lt;/style>
+
+&lt;ul id="nav">
+	&lt;li class="current">&lt;a href="#section-1">Section 1&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="#section-2">Section 2&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="#section-3">Section 3&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="#section-4">Section 4&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="#section-5">Section 5&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="http://google.com" class="external">Some other link&lt;/a>&lt;/li>
+&lt;/ul>
+
+$('#nav').onePageNav({
+	slimItems: "li",
+	slimAttributes: {
+		marginTop: "10px",
+		marginBottom: "10px"
+	}
+});</pre>
+
 ### If you are having issues with iOS devices
 If clicking a link in the nav makes the rest of the links unclickable until you scroll, you can solve it in this hacky way:
 
