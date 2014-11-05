@@ -156,6 +156,12 @@
 				//Removing the auto-adjust on scroll
 				self.unbindInterval();
 
+				//Hide mobile menu if open
+				var $nav = $('nav.collapse.in');
+				if ($nav.length > 0 && typeof $.fn.collapse !== 'undefined') {
+				    $nav.collapse('hide');
+				}
+
 				//Scroll to the correct position
 				self.scrollTo(newLoc, function() {
 					//Do we need to change the hash?
