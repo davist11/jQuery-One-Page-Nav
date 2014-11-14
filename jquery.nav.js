@@ -156,13 +156,13 @@
 				//Removing the auto-adjust on scroll
 				self.unbindInterval();
 
+				//Do we need to change the hash?
+				if(self.config.changeHash) {
+					window.location.hash = newLoc;
+				}
+
 				//Scroll to the correct position
 				self.scrollTo(newLoc, function() {
-					//Do we need to change the hash?
-					if(self.config.changeHash) {
-						window.location.hash = newLoc;
-					}
-
 					//Add the auto-adjust on scroll back in
 					self.bindInterval();
 
