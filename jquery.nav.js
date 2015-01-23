@@ -13,7 +13,8 @@
  * $('#nav').onePageNav({
  *   currentClass: 'current',
  *   changeHash: false,
- *   scrollSpeed: 750
+ *   scrollSpeed: 750,
+ *   offsetTop: 10
  * });
  */
 
@@ -44,7 +45,8 @@
 			scrollThreshold: 0.5,
 			begin: false,
 			end: false,
-			scrollChange: false
+			scrollChange: false,
+			offsetTop: 0
 		},
 
 		init: function() {
@@ -199,7 +201,7 @@
 		},
 
 		scrollTo: function(target, callback) {
-			var offset = $(target).offset().top;
+			var offset = $(target).offset().top - this.config.offsetTop;
 
 			$('html, body').animate({
 				scrollTop: offset
