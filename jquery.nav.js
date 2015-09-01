@@ -129,6 +129,9 @@
 			var returnValue = null;
 			var windowHeight = Math.round(this.$win.height() * this.config.scrollThreshold);
 
+			// Sort Sections by Position
+			this.sections = this.sortSectionsByPosition(this.sections);
+
 			for(var section in this.sections) {
 				if((this.sections[section] - windowHeight) < windowPos) {
 					returnValue = section;
@@ -136,6 +139,38 @@
 			}
 
 			return returnValue;
+		},
+
+		/**
+		 * Sort Sections by its position value
+		 * based on http://am.aurlien.net/post/1221493460/sorting-javascript-objects
+		 * @param  {Object} obj		Object to sort
+		 * @return {Object}         sorted Object
+		 */
+		sortSectionsByPosition: function (obj) {
+			var tempArray = [];
+			var tempObj = {};
+
+			// Transform Object in Array
+			for (var key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					tempArray.push(key);
+				}
+			}
+
+			tempArray.sort(function(a,b) {
+				var x = obj[a];
+				var y = obj[b];
+
+				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+			});
+
+			// Transform sorted tempArray back into Object
+			for (var i=0; i<tempArray.length; i++) {
+				tempObj[tempArray[i]] = obj[tempArray[i]];
+			}
+
+			return tempObj;
 		},
 
 		handleClick: function(e) {
