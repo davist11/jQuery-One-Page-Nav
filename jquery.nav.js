@@ -114,12 +114,13 @@
 			var linkHref;
 			var topPos;
 			var $target;
+			var sectionFilter = this.config.sectionFilter;
 
 			self.$nav.each(function() {
 				linkHref = self.getHash($(this));
 				$target = $('#' + linkHref);
-				if (this.config.sectionFilter) 
-					$target = $target.filter(this.config.sectionFilter);
+				if (sectionFilter) 
+					$target = $target.filter(sectionFilter);
 
 				if($target.length) {
 					topPos = $target.offset().top;
