@@ -40,6 +40,7 @@
 			changeHash: false,
 			easing: 'swing',
 			filter: '',
+			sectionFilter: '', // ex: '[rel!=notmainmenu]'
 			scrollSpeed: 750,
 			scrollThreshold: 0.5,
 			begin: false,
@@ -117,6 +118,8 @@
 			self.$nav.each(function() {
 				linkHref = self.getHash($(this));
 				$target = $('#' + linkHref);
+				if (this.config.sectionFilter) 
+					$target = $target.filter(this.config.sectionFilter);
 
 				if($target.length) {
 					topPos = $target.offset().top;
