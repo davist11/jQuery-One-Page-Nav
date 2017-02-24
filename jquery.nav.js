@@ -158,6 +158,12 @@
 
 				//Scroll to the correct position
 				self.scrollTo(newLoc, function() {
+					
+			               //Scroll change callback
+			               if(self.config.scrollChange){
+			                  self.config.scrollChange($parent);
+			               }
+					
 					//Do we need to change the hash?
 					if(self.config.changeHash) {
 						window.location.hash = newLoc;
