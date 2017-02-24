@@ -28,6 +28,7 @@ The plugin still works even if you add additional content to the page after the 
 <pre>$('#nav').onePageNav({
 	currentClass: 'current',
 	changeHash: false,
+	scrollOffset: 0,
 	scrollSpeed: 750,
 	scrollThreshold: 0.5,
 	filter: '',
