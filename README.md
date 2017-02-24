@@ -32,6 +32,7 @@ The plugin still works even if you add additional content to the page after the 
 	scrollThreshold: 0.5,
 	filter: '',
 	easing: 'swing',
+	topOffset: 0,
 	begin: function() {
 		//I get fired when the animation is starting
 	},
