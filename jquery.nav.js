@@ -39,7 +39,7 @@
 			currentClass: 'current',
 			changeHash: false,
 			easing: 'swing',
-			filter: '',
+			filter: null,
 			scrollSpeed: 750,
 			scrollThreshold: 0.5,
 			begin: false,
@@ -55,7 +55,7 @@
 			this.$nav = this.$elem.find(this.config.navItems);
 
 			//Filter any links out of the nav
-			if(this.config.filter !== '') {
+			if(this.config.filter) {
 				this.$nav = this.$nav.filter(this.config.filter);
 			}
 
@@ -142,7 +142,12 @@
 			var self = this;
 			var $link = $(e.currentTarget);
 			var $parent = $link.parent();
-			var newLoc = '#' + self.getHash($link);
+			var hash = self.getHash($link);
+			var newLoc = '#' + hash;
+
+			if (!hash || self.isExternalLink($link) || $(newLoc).length === 0) {
+				return;
+			}
 
 			if(!$parent.hasClass(self.config.currentClass)) {
 				//Start callback
@@ -209,6 +214,10 @@
 		unbindInterval: function() {
 			clearInterval(this.t);
 			this.$win.unbind('scroll.onePageNav');
+		},
+
+		isExternalLink: function($link) {
+			return window.location.host !== $link.get(0).host;
 		}
 	};
 
