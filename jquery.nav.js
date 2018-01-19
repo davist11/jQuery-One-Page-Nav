@@ -16,7 +16,9 @@
  *   scrollSpeed: 750
  * });
  */
-
+var navFilter = function(index, link){
+	return $(link).attr('href').split('#')[1] != undefined;
+};
 ;(function($, window, document, undefined){
 
 	// our plugin constructor
@@ -39,7 +41,7 @@
 			currentClass: 'current',
 			changeHash: false,
 			easing: 'swing',
-			filter: '',
+			filter: navFilter,
 			scrollSpeed: 750,
 			scrollThreshold: 0.5,
 			begin: false,
@@ -73,7 +75,6 @@
 
 			return this;
 		},
-
 		adjustNav: function(self, $parent) {
 			self.$elem.find('.' + self.config.currentClass).removeClass(self.config.currentClass);
 			$parent.addClass(self.config.currentClass);
@@ -127,11 +128,14 @@
 
 		getSection: function(windowPos) {
 			var returnValue = null;
+			var prevPosition = null;
 			var windowHeight = Math.round(this.$win.height() * this.config.scrollThreshold);
-
 			for(var section in this.sections) {
 				if((this.sections[section] - windowHeight) < windowPos) {
-					returnValue = section;
+					if(prevPosition == null || prevPosition < this.sections[section]){
+						prevPosition = this.sections[section];
+						returnValue = section;
+					}
 				}
 			}
 
