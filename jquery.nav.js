@@ -168,7 +168,8 @@
 
 					//End callback
 					if(self.config.end) {
-						self.config.end();
+						//Just provide parent information to end event
+						self.config.end($parent);
 					}
 				});
 			}
