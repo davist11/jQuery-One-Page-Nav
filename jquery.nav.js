@@ -38,6 +38,7 @@
 			navItems: 'a',
 			currentClass: 'current',
 			changeHash: false,
+            pageScroll: true,
 			easing: 'swing',
 			filter: '',
 			scrollSpeed: 750,
@@ -199,11 +200,17 @@
 		},
 
 		scrollTo: function(target, callback) {
-			var offset = $(target).offset().top;
-
-			$('html, body').animate({
-				scrollTop: offset
-			}, this.config.scrollSpeed, this.config.easing, callback);
+			if(!this.config.pageScroll){
+                return;
+            }
+            
+            var offset = $(target).offset().top;
+            
+            if(this.config.enablePageScroll){
+                $('html, body').animate({
+                    scrollTop: offset
+                }, this.config.scrollSpeed, this.config.easing, callback);
+            }
 		},
 
 		unbindInterval: function() {
