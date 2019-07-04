@@ -44,7 +44,8 @@
 			scrollThreshold: 0.5,
 			begin: false,
 			end: false,
-			scrollChange: false
+			scrollChange: false,
+			visibility: false
 		},
 
 		init: function() {
@@ -70,6 +71,20 @@
 
 			//Update the positions on resize too
 			this.$win.on('resize.onePageNav', $.proxy(this.getPositions, this));
+
+			//Hide sections except the frist one, if visibility mode is set to true
+      if (this.config.visibility == true) {
+        var i = 0;
+        for (var s in this.sections) {
+          var sec = '#' + s;
+          if (i == 0) {
+            $(sec).show();
+          } else {
+            $(sec).hide();
+          }
+          i++;
+        }
+      }
 
 			return this;
 		},
@@ -143,6 +158,18 @@
 			var $link = $(e.currentTarget);
 			var $parent = $link.parent();
 			var newLoc = '#' + self.getHash($link);
+
+			//If visibility mode is set to true: Show the selected section and hide all others
+			if (this.config.visibility == true) {
+				for (var s in self.sections) {
+					var sec = '#' + s;
+					if (sec == newLoc) {
+						$(sec).show();
+					} else {
+						$(sec).hide();
+					}
+				}
+			}
 
 			if(!$parent.hasClass(self.config.currentClass)) {
 				//Start callback
